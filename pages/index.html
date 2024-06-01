@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS Nuke Tool</title>
+    <link rel="stylesheet" href="../style/main.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      section {
+        margin-bottom: 40px;
+      }
+
+      p {
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to AWS Nuke Tool!</h1>
+    <section>
+      <p>
+        Welcome to AWS Nuke, your ultimate tool for securely deleting AWS
+        resources. AWS Nuke is designed to help you efficiently clean up unused
+        or unwanted resources from your AWS account. With AWS Nuke, you can
+        confidently remove AWS resources across multiple regions, accounts, and
+        services, streamlining your infrastructure management process.
+      </p>
+      <p>
+        At AWS Nuke, we prioritize the security and privacy of your AWS
+        credentials. It's essential to note that AWS Nuke does not store any AWS
+        credentials on our servers. Your AWS credentials are stored locally on
+        your PC only for the duration of the script execution. Once the script
+        completes, your AWS credentials are deleted from your PC, ensuring that
+        your sensitive information remains secure at all times.
+      </p>
+      <p>
+        By using AWS Nuke, you agree to comply with our Terms of Service. These
+        terms outline your responsibilities and obligations when using AWS Nuke.
+        Please review our Terms of Service carefully before proceeding.
+      </p>
+      <div class="checkbox-container">
+        <input type="checkbox" id="agree-checkbox" />
+        <label for="agree-checkbox">
+          I have read and agree to the Terms of Service
+        </label>
+      </div>
+
+      <div class="navigation">
+        <button
+          class="button"
+          onclick="navigateToService()"
+          id="next-btn"
+          disabled
+        >
+          Next
+        </button>
+      </div>
+    </section>
+
+    <script>
+      document
+        .getElementById("agree-checkbox")
+        .addEventListener("change", function () {
+          document.getElementById("next-btn").disabled = !this.checked;
+        });
+
+      function navigateToService() {
+        window.location.href = "steps.html";
+      }
+    </script>
+  </body>
+</html>

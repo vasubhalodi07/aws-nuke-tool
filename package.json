@@ -1,0 +1,61 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "build": "node build.js",
+    "start": "electron .",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "electron-rebuild"
+  },
+  "build": {
+    "appId": "aws.nuke.id",
+    "productName": "AWS Nuke",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "pages/**/*",
+      "script/**/*",
+      "style/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/@xterm/xterm/css/xterm.css",
+        "to": "css/xterm.css"
+      },
+      {
+        "from": "node_modules/@xterm/xterm/lib/xterm.js",
+        "to": "lib/xterm.js"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "@xterm/xterm": "^5.5.0",
+    "node-pty": "^1.0.0"
+  }
+}

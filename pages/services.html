@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS Services List</title>
+    <link rel="stylesheet" href="../style/main.css" />
+    <style>
+      .service-category {
+        margin-top: 10px;
+      }
+      .service-category div {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+        display: none;
+        padding: 0px 10px;
+      }
+      ul.visible {
+        display: block;
+      }
+      li {
+        padding: 5px 0;
+      }
+      .service-checkbox {
+        margin-right: 10px;
+      }
+      .service-row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .service-item {
+        width: 30%;
+        margin-bottom: 10px;
+      }
+      i {
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>List of AWS Services</h1>
+
+    <div id="services-container"></div>
+    <div class="navigation">
+      <button class="button" onclick="navigateToIndex()">Previous</button>
+      <button class="button" onclick="navigateToService()">Next</button>
+    </div>
+
+    <script>
+      const services = {
+        Compute: [
+          "EC2Instance",
+          "LambdaFunction",
+          "ElasticBeanstalkApplication",
+          "LightsailInstance",
+          "BatchComputeEnvironment",
+          "ECSCluster",
+          "ECSService",
+          "ECSTaskDefinition",
+          "EKSCluster",
+          "EKSFargateProfiles",
+          "EKSNodegroups",
+          "AppMeshMesh",
+          "AppMeshRoute",
+          "AppMeshVirtualGateway",
+          "AppMeshVirtualNode",
+          "AppMeshVirtualRouter",
+          "AppMeshVirtualService",
+        ],
+        Storage: [
+          "S3Bucket",
+          "S3MultipartUpload",
+          "S3Object",
+          "EFSFileSystem",
+          "EFSMountTarget",
+          "FSxFileSystem",
+          "FSxBackup",
+          "ElasticacheCacheCluster",
+          "ElasticacheCacheParameterGroup",
+          "ElasticacheReplicationGroup",
+          "ElasticacheSubnetGroup",
+        ],
+        Database: [
+          "RDSInstance",
+          "DynamoDBTable",
+          "DynamoDBTableItem",
+          "NeptuneCluster",
+          "NeptuneInstance",
+          "NetpuneSnapshot",
+          "RedshiftCluster",
+          "RedshiftParameterGroup",
+          "RedshiftSnapshot",
+          "RedshiftSubnetGroup",
+          "AuroraCluster",
+          "DatabaseMigrationServiceCertificate",
+          "DatabaseMigrationServiceEndpoint",
+          "DatabaseMigrationServiceEventSubscription",
+          "DatabaseMigrationServiceReplicationInstance",
+          "DatabaseMigrationServiceReplicationTask",
+          "DatabaseMigrationServiceSubnetGroup",
+        ],
+        "Networking & Content Delivery": [
+          "EC2VPC",
+          "EC2Subnet",
+          "EC2RouteTable",
+          "EC2InternetGateway",
+          "EC2NATGateway",
+          "EC2NetworkACL",
+          "EC2SecurityGroup",
+          "EC2VPCEndpoint",
+          "EC2VPCEndpointServiceConfiguration",
+          "EC2VPCPeeringConnection",
+          "CloudFrontDistribution",
+          "CloudFrontOriginAccessIdentity",
+          "Route53HostedZone",
+          "Route53ResolverEndpoint",
+          "Route53ResolverRule",
+          "Route53ResourceRecordSet",
+          "Route53TrafficPolicy",
+          "APIGatewayRestAPI",
+          "APIGatewayAPIKey",
+          "APIGatewayClientCertificate",
+          "APIGatewayDomainName",
+          "APIGatewayUsagePlan",
+          "APIGatewayV2API",
+          "APIGatewayV2VpcLink",
+          "APIGatewayVpcLink",
+          "GlobalAccelerator",
+          "GlobalAcceleratorEndpointGroup",
+          "GlobalAcceleratorListener",
+          "TransitGateway",
+          "TransitGatewayAttachment",
+          "ElasticLoadBalancingV2",
+          "ElasticLoadBalancing",
+          "VPCPeeringConnection",
+          "VPNConnection",
+          "VPNGateway",
+        ],
+        Containers: [
+          "ECRRepository",
+          "ECSCluster",
+          "ECSClusterInstance",
+          "ECSService",
+          "ECSTaskDefinition",
+          "EKSCluster",
+          "EKSFargateProfiles",
+          "EKSNodegroups",
+          "AppRunnerService",
+        ],
+        "Security, Identity, & Compliance": [
+          "IAMUser",
+          "IAMUserAccessKey",
+          "IAMGroup",
+          "IAMGroupPolicy",
+          "IAMGroupPolicyAttachment",
+          "IAMRole",
+          "IAMRolePolicy",
+          "IAMRolePolicyAttachment",
+          "IAMPolicy",
+          "IAMServerCertificate",
+          "IAMServiceSpecificCredential",
+          "IAMInstanceProfile",
+          "IAMOpenIDConnectProvider",
+          "IAMSAMLProvider",
+          "IAMUserPolicy",
+          "IAMUserPolicyAttachment",
+          "IAMUserSSHPublicKey",
+          "KMSKey",
+          "KMSAlias",
+          "ACMCertificate",
+          "ACMPCACertificateAuthority",
+          "ACMPCACertificateAuthorityState",
+          "AccessAnalyzer",
+          "CognitoIdentityPool",
+          "CognitoIdentityProvider",
+          "CognitoUserPool",
+          "CognitoUserPoolClient",
+          "CognitoUserPoolDomain",
+          "SecretsManagerSecret",
+          "GuardDutyDetector",
+          "SecurityHub",
+        ],
+        "Management & Governance": [
+          "CloudWatchAlarm",
+          "CloudWatchDashboard",
+          "CloudWatchEventsRule",
+          "CloudWatchEventsTarget",
+          "CloudWatchLogsDestination",
+          "CloudWatchLogsLogGroup",
+          "CloudWatchLogsResourcePolicy",
+          "CloudTrailTrail",
+          "ConfigServiceConfigRule",
+          "ConfigServiceConfigurationRecorder",
+          "ConfigServiceDeliveryChannel",
+          "AWSBackupPlan",
+          "AWSBackupRecoveryPoint",
+          "AWSBackupSelection",
+          "AWSBackupVault",
+          "AWSBackupVaultAccessPolicy",
+          "CloudFormationStack",
+          "CloudFormationStackSet",
+          "CloudFormationType",
+          "ServiceCatalogPortfolio",
+          "ServiceCatalogPortfolioProductAttachment",
+          "ServiceCatalogPortfolioShareAttachment",
+          "ServiceCatalogPrincipalPortfolioAttachment",
+          "ServiceCatalogProduct",
+          "ServiceCatalogProvisionedProduct",
+          "ServiceCatalogTagOption",
+          "ServiceCatalogTagOptionPortfolioAttachment",
+          "OpsWorksApp",
+          "OpsWorksCMBackup",
+          "OpsWorksCMServer",
+          "OpsWorksCMServerState",
+          "OpsWorksInstance",
+          "OpsWorksLayer",
+          "OpsWorksUserProfile",
+          "AutoScalingGroup",
+          "AutoScalingPlansScalingPlan",
+          "LaunchConfiguration",
+          "LifecycleHook",
+        ],
+        Other: [
+          "AthenaNamedQuery",
+          "AthenaWorkGroup",
+          "Cloud9Environment",
+          "CloudDirectoryDirectory",
+          "CloudDirectorySchema",
+          "CloudHSMV2Cluster",
+          "CloudHSMV2ClusterHSM",
+          "CloudSearchDomain",
+          "CodeBuildProject",
+          "CodeCommitRepository",
+          "CodeDeployApplication",
+          "CodePipelinePipeline",
+          "CodeStarConnection",
+          "CodeStarNotificationRule",
+          "CodeStarProject",
+          "ComprehendDocumentClassifier",
+          "ComprehendDominantLanguageDetectionJob",
+          "ComprehendEndpoint",
+          "ComprehendEntitiesDetectionJob",
+          "ComprehendEntityRecognizer",
+          "ComprehendKeyPhrasesDetectionJob",
+          "ComprehendSentimentDetectionJob",
+          "DataPipelinePipeline",
+          "DAXCluster",
+          "DAXParameterGroup",
+          "DAXSubnetGroup",
+          "DeviceFarmProject",
+          "DirectoryServiceDirectory",
+          "GlueClassifier",
+          "GlueConnection",
+          "GlueCrawler",
+          "GlueDatabase",
+          "GlueDevEndpoint",
+          "GlueJob",
+          "GlueTrigger",
+          "IoTAuthorizer",
+          "IoTCACertificate",
+          "IoTCertificate",
+          "IoTJob",
+          "IoTOTAUpdate",
+          "IoTPolicy",
+          "IoTRoleAlias",
+          "IoTStream",
+          "IoTThing",
+          "IoTThingGroup",
+          "IoTThingType",
+          "IoTThingTypeState",
+          "IoTTopicRule",
+          "KinesisAnalyticsApplication",
+          "KinesisStream",
+          "KinesisVideoProject",
+          "LexBot",
+          "LexIntent",
+          "LexSlotType",
+          "MediaConvertJobTemplate",
+          "MediaConvertPreset",
+          "MediaConvertQueue",
+          "MediaLiveChannel",
+          "MediaLiveInput",
+          "MediaLiveInputSecurityGroup",
+          "MediaPackageChannel",
+          "MediaPackageOriginEndpoint",
+          "MediaStoreContainer",
+          "MediaStoreDataItems",
+          "MediaTailorConfiguration",
+          "MobileProject",
+          "MQBroker",
+          "MSKCluster",
+          "NeptuneDBCluster",
+          "NeptuneDBClusterParameterGroup",
+          "NeptuneDBClusterSnapshot",
+          "NeptuneDBInstance",
+          "NeptuneDBParameterGroup",
+          "NeptuneDBSubnetGroup",
+          "QLDBLedger",
+          "QLDBStreamJournalToKinesis",
+          "QLDBTable",
+          "QuickSightDashboard",
+          "QuickSightDataSet",
+          "QuickSightDataSource",
+          "QuickSightGroup",
+          "QuickSightIAMPolicyAssignment",
+          "QuickSightTemplate",
+          "QuickSightUser",
+          "RekognitionCollection",
+          "RekognitionProject",
+          "RekognitionStreamProcessor",
+          "SageMakerAlgorithm",
+          "SageMakerCodeRepository",
+          "SageMakerEndpoint",
+          "SageMakerExperiment",
+          "SageMakerModel",
+          "SageMakerNotebookInstance",
+          "SageMakerNotebookInstanceLifecycleConfig",
+          "SageMakerPipeline",
+          "SageMakerProject",
+          "SageMakerTrainingJob",
+          "SageMakerTransformJob",
+          "SageMakerUserProfile",
+          "SageMakerWorkforce",
+          "SageMakerWorkteam",
+          "SavingsPlans",
+          "SavingsPlansRate",
+          "ServiceQuotas",
+          "ServiceQuotasService",
+          "ShieldProtection",
+          "ShieldSubscription",
+          "SnowballCluster",
+          "SnowballJob",
+          "SnowballJobState",
+          "SnowballShippingOption",
+          "SnowballShippingOptionJobState",
+          "StepFunctionsActivity",
+          "StepFunctionsExecution",
+          "StepFunctionsStateMachine",
+          "SWFWorkflowType",
+          "SWFWorkflowTypeDefaultTaskList",
+          "TranslateTextTranslationJob",
+          "WAFRegionalWebACL",
+          "WAFRegionalWebACLRule",
+          "WorkDocsComment",
+          "WorkDocsDocument",
+          "WorkDocsDocumentVersion",
+          "WorkDocsFolder",
+          "WorkDocsPermission",
+          "WorkLinkFleet",
+          "WorkSpacesWorkspace",
+          "XRayGroup",
+          "XRaySamplingRule",
+        ],
+      };
+
+      function renderServices() {
+        const container = document.getElementById("services-container");
+        for (const category in services) {
+          const categoryDiv = document.createElement("div");
+          categoryDiv.className = "service-category";
+
+          const categoryHeader = document.createElement("div");
+          categoryHeader.innerHTML = `${category} <i class="fas fa-chevron-down"></i>`;
+          categoryHeader.addEventListener("click", function () {
+            const ul = categoryDiv.querySelector("ul");
+            ul.classList.toggle("visible");
+            const icon = categoryHeader.querySelector("i");
+            icon.classList.toggle("fa-chevron-down");
+            icon.classList.toggle("fa-chevron-up");
+          });
+          categoryDiv.appendChild(categoryHeader);
+
+          const ul = document.createElement("ul");
+          if (category === "Compute") {
+            ul.classList.add("visible");
+          }
+
+          const servicesInCategory = services[category];
+          for (let i = 0; i < servicesInCategory.length; i++) {
+            const li = document.createElement("li");
+            const serviceName = servicesInCategory[i];
+            const serviceCheckbox = document.createElement("input");
+            serviceCheckbox.type = "checkbox";
+            serviceCheckbox.className = "service-checkbox";
+            serviceCheckbox.id = serviceName;
+            serviceCheckbox.addEventListener("change", function () {
+              if (this.checked) {
+                addServiceToLocalStorage(serviceName);
+              } else {
+                removeServiceFromLocalStorage(serviceName);
+              }
+            });
+            const serviceLabel = document.createElement("label");
+            serviceLabel.setAttribute("for", serviceName);
+            serviceLabel.textContent = serviceName;
+            li.appendChild(serviceCheckbox);
+            li.appendChild(serviceLabel);
+            ul.appendChild(li);
+            if (isChecked(serviceName)) {
+              serviceCheckbox.checked = true;
+            }
+          }
+          categoryDiv.appendChild(ul);
+          container.appendChild(categoryDiv);
+        }
+      }
+
+      function addServiceToLocalStorage(serviceName) {
+        let checkedServices =
+          JSON.parse(localStorage.getItem("checkedServices")) || [];
+        if (!checkedServices.includes(serviceName)) {
+          checkedServices.push(serviceName);
+          localStorage.setItem(
+            "checkedServices",
+            JSON.stringify(checkedServices)
+          );
+        }
+      }
+
+      function removeServiceFromLocalStorage(serviceName) {
+        let checkedServices =
+          JSON.parse(localStorage.getItem("checkedServices")) || [];
+        if (checkedServices.includes(serviceName)) {
+          checkedServices = checkedServices.filter(
+            (service) => service !== serviceName
+          );
+          localStorage.setItem(
+            "checkedServices",
+            JSON.stringify(checkedServices)
+          );
+        }
+      }
+
+      function isChecked(serviceName) {
+        let checkedServices =
+          JSON.parse(localStorage.getItem("checkedServices")) || [];
+        return checkedServices.includes(serviceName);
+      }
+
+      function navigateToIndex() {
+        window.location.href = "steps.html";
+      }
+
+      function navigateToService() {
+        window.location.href = "input.html";
+      }
+
+      document.addEventListener("DOMContentLoaded", renderServices);
+    </script>
+  </body>
+</html>

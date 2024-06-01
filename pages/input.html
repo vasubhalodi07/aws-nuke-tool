@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS Nuke App</title>
+    <link rel="stylesheet" href="../style/main.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      .flex {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      .flex > div {
+        margin: 5px;
+      }
+
+      input[type="text"],
+      input[type="submit"] {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        min-width: 400px;
+      }
+
+      input[type="submit"] {
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        transition: background-color 0.3s;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      #status {
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AWS Credentials Form</h1>
+
+    <div class="flex">
+      <div>
+        <input
+          type="text"
+          id="accessKeyId"
+          placeholder="AWS ACCESS KEY ID"
+        />
+      </div>
+      <div>
+        <input
+          type="text"
+          id="secretAccessKey"
+          placeholder="AWS SECRET ACCESS KEY"
+        />
+      </div>
+      <div>
+        <input type="text" id="accountNumber" placeholder="ACCOUNT NUMBER" />
+      </div>
+      <div>
+        <input type="submit" id="install-button" value="Execute" />
+      </div>
+    </div>  
+
+    <div>Selected Service</div>
+    <div id="selectedServices"></div>
+
+    <div>
+      <button onclick="next()">next</button>
+    </div>
+
+    <div id="status"></div>
+
+    <script>
+      function next() {
+        window.location.href = "execution.html";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        selectedServiceList();
+
+        document
+          .getElementById("install-button")
+          .addEventListener("click", () => {
+            const accessKeyId = document.getElementById("accessKeyId").value;
+            const secretAccessKey =
+              document.getElementById("secretAccessKey").value;
+            const accountNumber =
+              document.getElementById("accountNumber").value;
+            const selectedServices = JSON.parse(
+              localStorage.getItem("checkedServices")
+            );
+
+            window.electron.executeScript({
+              accessKeyId,
+              secretAccessKey,
+              accountNumber,
+              selectedServices,
+            });
+
+            window.location.href = "./execution.html";
+          });
+      });
+
+      function selectedServiceList() {
+        let selectedServiceTag = document.getElementById("selectedServices");
+
+        let selectedServices = JSON.parse(
+          localStorage.getItem("checkedServices")
+        );
+        if (selectedServices && selectedServices.length > 0) {
+          let selectedServiceList = "";
+          for (let i = 0; i < selectedServices.length; i++) {
+            selectedServiceList += `<li>${selectedServices[i]}</li>`;
+          }
+          selectedServiceTag.innerHTML = selectedServiceList;
+        } else {
+          selectedServiceTag.innerHTML = `<div>No Services Selected</div>`;
+        }
+      }
+
+      window.electron.onScriptStatus((message) => {
+        document.getElementById("status").innerText = message;
+      });
+    </script>
+  </body>
+</html>
