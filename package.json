@@ -7,12 +7,11 @@
     "build": "node build.js",
     "start": "electron main.js --no-sandbox",
     "pack": "npm run build && electron-builder --dir",
-    "dist": "npm run build && electron-builder",
-    "postinstall": "electron-rebuild"
+    "dist": "npm run build && electron-builder"
   },
   "build": {
-    "appId": "aws.nuke.id",
-    "productName": "AWS Nuke",
+    "appId": "com.yourapp.id",
+    "productName": "AWS Nuke Tool",
     "directories": {
       "output": "dist"
     },
@@ -26,28 +25,21 @@
       "script/**/*",
       "style/**/*"
     ],
-    "extraResources": [
-      {
-        "from": "node_modules/@xterm/xterm/css/xterm.css",
-        "to": "css/xterm.css"
-      },
-      {
-        "from": "node_modules/@xterm/xterm/lib/xterm.js",
-        "to": "lib/xterm.js"
-      }
-    ],
-    "win": {
-      "target": "nsis"
-    },
-    "mac": {
-      "target": "dmg"
-    },
     "linux": {
-      "target": "AppImage"
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "maintainer": "vasubhalodi111@gmail.com"
     }
   },
+  "homepage": "https://yourprojecthomepage.com",
+  "author": {
+    "name": "Vasu Bhalodi",
+    "email": "vasubhalodi111@gmail.com"
+  },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "electron": "^30.0.9",
