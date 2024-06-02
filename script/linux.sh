@@ -3,25 +3,21 @@ ACCESS_KEY_ID="{{ACCESS_KEY_ID}}"
 SECRET_ACCESS_KEY="{{SECRET_ACCESS_KEY}}"
 ACCOUNT_NUMBER="{{ACCOUNT_NUMBER}}"
 
-exec > >(tee aws-nuke-execution.log)
-exec 2>&1
-
 echo "INSTALLATION_STARTED"
 
-sudo apt-get update
-
-sudo wget -cq https://github.com/rebuy-de/aws-nuke/releases/download/v2.16.0/aws-nuke-v2.16.0-linux-amd64.tar.gz
+echo "Downloading AWS Nuke..."
+wget -cq https://github.com/rebuy-de/aws-nuke/releases/download/v2.16.0/aws-nuke-v2.16.0-linux-amd64.tar.gz
 
 tar -xvf aws-nuke-v2.16.0-linux-amd64.tar.gz
 
 mv aws-nuke-v2.16.0-linux-amd64 aws-nuke
 
-sudo mv aws-nuke /usr/local/bin/aws-nuke
+echo "Enable AWS Nuke Package!"
+mv aws-nuke /usr/local/bin/aws-nuke
 
 rm -f aws-nuke-v2.16.0-linux-amd64.tar.gz
 
 echo "INSTALLATION_COMPLETED"
-
 echo "EXECUTION_STARTED"
 
 touch nuke-config.yml
