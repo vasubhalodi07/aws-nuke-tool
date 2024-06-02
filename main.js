@@ -7,6 +7,9 @@ const os = require("os");
 
 let mainWindow;
 
+const userHomeDir = os.homedir();
+const scriptDir = path.join(userHomeDir, "aws-nuke-tool");
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
@@ -41,8 +44,6 @@ ipcMain.on("create-script", (event, args) => {
   const { accessKeyId, secretAccessKey, accountNumber, selectedServices } =
     args;
 
-  const userHomeDir = os.homedir();
-  const scriptDir = path.join(userHomeDir, "aws-nuke-tool");
   if (!fs.existsSync(scriptDir)) {
     fs.mkdirSync(scriptDir);
   }

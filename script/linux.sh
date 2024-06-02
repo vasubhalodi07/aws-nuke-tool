@@ -1,9 +1,16 @@
+#!/bin/bash
 SELECTED_SERVICES="{{SELECTED_SERVICES}}"
 ACCESS_KEY_ID="{{ACCESS_KEY_ID}}"
 SECRET_ACCESS_KEY="{{SECRET_ACCESS_KEY}}"
 ACCOUNT_NUMBER="{{ACCOUNT_NUMBER}}"
 
+HOME_DIR="$HOME/aws-nuke-tool"
+
 echo "INSTALLATION_STARTED"
+
+echo "Creating directory at $HOME_DIR"
+mkdir -p "$HOME_DIR"
+cd "$HOME_DIR"
 
 echo "Downloading AWS Nuke..."
 wget -cq https://github.com/rebuy-de/aws-nuke/releases/download/v2.16.0/aws-nuke-v2.16.0-linux-amd64.tar.gz
@@ -59,3 +66,8 @@ EOL
 aws-nuke -c nuke-config.yml --no-dry-run --force
 
 echo "EXECUTION_COMPLETED"
+
+echo "Cleaning up..."
+cd ~
+rm -rf "$HOME_DIR"
+echo "Cleanup completed."
