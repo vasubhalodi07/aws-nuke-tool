@@ -56,6 +56,7 @@
   },
   "dependencies": {
     "@xterm/xterm": "^5.5.0",
-    "node-pty": "^1.0.0"
+    "node-pty": "^1.0.0",
+    "shelljs": "^0.8.5"
   }
 }
