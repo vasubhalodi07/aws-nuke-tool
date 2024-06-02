@@ -48,9 +48,15 @@ ipcMain.on("create-script", (event, args) => {
     fs.mkdirSync(scriptDir);
   }
 
-  const scriptPath = path.join(scriptDir, "aws-nuke-linux-script.sh");
+  const scriptPath = path.join(
+    scriptDir,
+    `aws-nuke-${process.platform}-script.sh`
+  );
+  const originalScriptPath = path.join(
+    __dirname,
+    `script/${process.platform === "win32" ? "window" : "linux"}.sh`
+  );
 
-  const originalScriptPath = path.join(__dirname, "script/linux.sh");
   let scriptContent = fs.readFileSync(originalScriptPath, "utf8");
   scriptContent = scriptContent.replace(
     /{{SELECTED_SERVICES}}/g,
@@ -69,8 +75,18 @@ ipcMain.on("create-script", (event, args) => {
 });
 
 ipcMain.on("execute-script", (event, args) => {
-  const scriptPath = path.join(scriptDir, "aws-nuke-linux-script.sh");
-  const shellCommand = `sh "${scriptPath}"`;
+  const scriptPath = path.join(
+    scriptDir,
+    `aws-nuke-${process.platform}-script.sh`
+  );
+
+  // const shellCommand = `sh "${scriptPath}"`;
+
+  const shellCommand =
+    process.platform === "win32"
+      ? `powershell -ExecutionPolicy Bypass -File "${scriptPath}"`
+      : `sh "${scriptPath}"`;
+
   const child = shell.exec(shellCommand, { async: true, silent: true });
 
   child.stdout.on("data", (data) => {
@@ -83,5 +99,13 @@ ipcMain.on("execute-script", (event, args) => {
 
   child.on("close", (code) => {
     event.sender.send("script-output", `Process exited with code ${code}`);
+    event.sender.send(
+      "script-completed",
+      "Execution completed. All resources in your AWS account have been removed."
+    );
   });
+});
+
+ipcMain.on("close-app", () => {
+  app.quit();
 });
