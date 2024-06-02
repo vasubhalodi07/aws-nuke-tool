@@ -54,11 +54,7 @@
 
     <div class="flex">
       <div>
-        <input
-          type="text"
-          id="accessKeyId"
-          placeholder="AWS ACCESS KEY ID"
-        />
+        <input type="text" id="accessKeyId" placeholder="AWS ACCESS KEY ID" />
       </div>
       <div>
         <input
@@ -73,7 +69,7 @@
       <div>
         <input type="submit" id="install-button" value="Execute" />
       </div>
-    </div>  
+    </div>
 
     <div>Selected Service</div>
     <div id="selectedServices"></div>
@@ -104,14 +100,12 @@
               localStorage.getItem("checkedServices")
             );
 
-            window.electron.executeScript({
+            window.electron.createScript({
               accessKeyId,
               secretAccessKey,
               accountNumber,
               selectedServices,
             });
-
-            window.location.href = "./execution.html";
           });
       });
 
