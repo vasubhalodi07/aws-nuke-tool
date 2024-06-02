@@ -4,10 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "node build.js",
-    "start": "electron main.js --no-sandbox",
-    "pack": "npm run build && electron-builder --dir",
-    "dist": "npm run build && electron-builder"
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "build": {
     "appId": "com.yourapp.id",
