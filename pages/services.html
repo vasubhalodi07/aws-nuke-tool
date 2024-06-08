@@ -51,7 +51,7 @@
 
     <div id="services-container"></div>
     <div class="navigation">
-      <button class="button" onclick="navigateToIndex()">Previous</button>
+      <button class="button" onclick="navigateToPermission()">Previous</button>
       <button class="button" onclick="navigateToInput()">Next</button>
     </div>
 
@@ -446,12 +446,12 @@
         return checkedServices.includes(serviceName);
       }
 
-      function navigateToIndex() {
-        window.location.href = "steps.html";
+      function navigateToPermission() {
+        window.location.href = "permission.html";
       }
 
       function navigateToInput() {
-        window.location.href = "requiredment.html";
+        window.location.href = "input.html";
       }
 
       document.addEventListener("DOMContentLoaded", renderServices);
