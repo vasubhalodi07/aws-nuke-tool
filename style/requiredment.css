@@ -1,0 +1,103 @@
+.section {
+  border-radius: 8px;
+}
+
+.commands .status span {
+  font-size: 18px;
+  color: #333;
+}
+
+.package {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.package.installed {
+  border-left: 6px solid #4caf50;
+}
+
+.package.missing {
+  border-left: 6px solid #f44336;
+}
+
+.command {
+  background-color: #f9f9f9;
+  border-left: 6px solid #2196f3;
+  padding: 10px;
+  margin: 10px 0;
+  display: none;
+  border-radius: 4px;
+}
+
+.command pre {
+  margin: 0;
+  padding: 10px;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+.show-command {
+  cursor: pointer;
+  color: #2196f3;
+  margin-top: 10px;
+}
+
+.status-icon {
+  margin-right: 10px;
+  font-size: 17px;
+}
+
+.loading-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background-color: #2196f3;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #1e88e5;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.note {
+  background-color: #fff3cd;
+  border-left: 6px solid #ffeb3b;
+  padding: 10px;
+  margin: 20px 0;
+  line-height: 1.3;
+  border-radius: 8px;
+  color: #856404;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.refresh-button {
+    background-color: #9e9fad;
+}

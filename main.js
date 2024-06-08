@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-
 const shell = require("shelljs");
 const fs = require("fs");
 const os = require("os");
@@ -62,7 +61,6 @@ ipcMain.on("create-script", (event, args) => {
     /{{SELECTED_SERVICES}}/g,
     selectedServices.join(",")
   );
-
   scriptContent = scriptContent.replace(/{{ACCESS_KEY_ID}}/g, accessKeyId);
   scriptContent = scriptContent.replace(
     /{{SECRET_ACCESS_KEY}}/g,
@@ -79,8 +77,6 @@ ipcMain.on("execute-script", (event, args) => {
     scriptDir,
     `aws-nuke-${process.platform}-script.sh`
   );
-
-  // const shellCommand = `sh "${scriptPath}"`;
 
   const shellCommand =
     process.platform === "win32"
@@ -104,6 +100,37 @@ ipcMain.on("execute-script", (event, args) => {
       "Execution completed. All resources in your AWS account have been removed."
     );
   });
+});
+
+ipcMain.handle("check-requirements", async (event, os) => {
+  const requirements = {
+    wget: false,
+    permissions: {
+      "/usr/local/bin": false,
+      "/bin/mv": false,
+      "/usr/bin/wget": false,
+      "/bin/tar": false,
+    },
+  };
+
+  if (os === "Windows") {
+    requirements.wget = shell.which("powershell") ? true : false;
+    requirements.curl = shell.which("curl") ? true : false;
+    requirements.tar = shell.which("tar") ? true : false;
+  } else {
+    requirements.wget = shell.which("wget") ? true : false;
+    Object.keys(requirements.permissions).forEach((path) => {
+      try {
+        fs.accessSync(path, fs.constants.W_OK);
+        requirements.permissions[path] = true;
+      } catch (err) {
+        requirements.permissions[path] = false;
+      }
+    });
+  }
+
+  console.log(`requiredments ${requirements}`);
+  return requirements;
 });
 
 ipcMain.on("close-app", () => {

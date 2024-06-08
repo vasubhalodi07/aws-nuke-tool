@@ -8,4 +8,5 @@ contextBridge.exposeInMainWorld("electron", {
   onScriptCompleted: (callback) =>
     ipcRenderer.on("script-completed", (event, message) => callback(message)),
   closeApp: () => ipcRenderer.send("close-app"),
+  checkRequirements: (os) => ipcRenderer.invoke("check-requirements", os),
 });

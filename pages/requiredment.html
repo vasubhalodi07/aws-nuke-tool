@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Requirements</title>
+    <link rel="stylesheet" href="../style/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../style/requiredment.css" />
+  </head>
+  <body>
+    <div class="flex">
+      <h1>Check Requirements</h1>
+      <button
+        class="refresh-button"
+        id="refresh-button"
+        onclick="refreshRequirements()"
+      >
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+    <div class="section">
+      <p id="os-info"></p>
+      <div id="commands" class="commands">
+        <div class="status">
+          <i class="fas fa-spinner fa-spin loading-icon"></i>
+          <span>Checking requirements...</span>
+        </div>
+      </div>
+      <div class="note">
+        <strong>Note:</strong> Ensure you have the necessary permissions and the
+        required commands are installed before proceeding.
+      </div>
+    </div>
+    <div class="navigation">
+      <button class="button" onclick="navigateToPrevious()">Previous</button>
+      <button class="button" id="next-button" onclick="navigateToNext()">
+        Next
+      </button>
+    </div>  
+
+    <script>
+      function navigateToPrevious() {
+        window.location.href = "services.html";
+      }
+
+      function navigateToNext() {
+        window.location.href = "input.html";
+      }
+
+      function getOS() {
+        const userAgent = window.navigator.userAgent;
+        if (userAgent.indexOf("Win") !== -1) return "Windows";
+        if (userAgent.indexOf("Mac") !== -1) return "MacOS";
+        if (userAgent.indexOf("Linux") !== -1) return "Linux";
+        return "Unknown OS";
+      }
+
+      function displayRequirements(os, requirements) {
+        const osInfo = document.getElementById("os-info");
+        const commandsDiv = document.getElementById("commands");
+        let commands = "";
+
+        switch (os) {
+          case "Linux":
+            osInfo.textContent = "You are using Linux.";
+            commands = `
+              <div class="package ${
+                requirements.wget ? "installed" : "missing"
+              }">
+                <div class="status">
+                  <i class="status-icon ${
+                    requirements.wget
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-circle-exclamation"
+                  }"></i>
+                  <span>wget</span>
+                </div>
+                ${
+                  !requirements.wget
+                    ? `<div class="command">
+                          <p>Install via:</p>
+                          <pre>sudo apt-get install wget</pre>
+                        </div>
+                        <div class="show-command" onclick="toggleCommand(this)">
+                          Show commands
+                        </div>`
+                    : ""
+                }
+              </div>
+
+              <div class="package ${
+                requirements.permissions["/usr/local/bin"]
+                  ? "installed"
+                  : "missing"
+              }">
+                <div class="status">
+                  <i class="status-icon ${
+                    requirements.permissions["/usr/local/bin"]
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-circle-exclamation"
+                  }"></i>
+                  <span>/usr/local/bin</span>
+                </div>
+              </div>
+
+              <div class="package ${
+                requirements.permissions["/bin/mv"] ? "installed" : "missing"
+              }">
+                <div class="status">
+                  <i class="status-icon ${
+                    requirements.permissions["/bin/mv"]
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-circle-exclamation"
+                  }"></i>
+                  <span>/bin/mv</span>
+                </div>
+              </div>
+
+              <div class="package ${
+                requirements.permissions["/usr/bin/wget"]
+                  ? "installed"
+                  : "missing"
+              }">
+                <div class="status">
+                  <i class="status-icon ${
+                    requirements.permissions["/usr/bin/wget"]
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-circle-exclamation"
+                  }"></i>
+                  <span>/usr/bin/wget</span>
+                </div>
+              </div>
+
+              <div class="package ${
+                requirements.permissions["/bin/tar"] ? "installed" : "missing"
+              }">
+                <div class="status">
+                  <i class="status-icon ${
+                    requirements.permissions["/bin/tar"]
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-circle-exclamation"
+                  }"></i>
+                  <span>/bin/tar</span>
+                </div>
+              </div>
+              
+              ${
+                Object.values(requirements.permissions).includes(false)
+                  ? `<p>Execute the following command in your terminal before processing:</p>
+                    <pre><code>sudo chmod 777 /usr/local/bin /bin/mv /usr/bin/wget /bin/tar</code></pre>`
+                  : ""
+              }
+            `;
+            break;
+          default:
+            osInfo.textContent = "Your OS could not be detected.";
+            commands =
+              "<p>Please ensure you have the necessary permissions and required commands installed.</p>";
+            break;
+        }
+        commandsDiv.innerHTML = commands;
+
+        // const allSatisfied = Object.values(requirements).every((req) => req);
+        // document.getElementById("next-button").disabled = !allSatisfied;
+      }
+
+      function toggleCommand(element) {
+        const command = element.previousElementSibling;
+        command.style.display =
+          command.style.display === "none" ? "block" : "none";
+        element.textContent = element.textContent.includes("Show")
+          ? "Hide commands"
+          : "Show commands";
+      }
+
+      function checkRequirements() {
+        const os = getOS();
+        window.electron.checkRequirements(os).then((requirements) => {
+          displayRequirements(os, requirements);
+        });
+      }
+
+      function refreshRequirements() {
+        checkRequirements();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        checkRequirements();
+      });
+    </script>
+  </body>
+</html>

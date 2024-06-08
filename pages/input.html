@@ -74,15 +74,13 @@
     <div>Selected Service</div>
     <div id="selectedServices"></div>
 
-    <div>
-      <button onclick="next()">next</button>
+    <div class="navigation">
+      <button class="button" onclick="navigateToRequiedment()">Previous</button>
     </div>
 
-    <div id="status"></div>
-
     <script>
-      function next() {
-        window.location.href = "execution.html";
+      function navigateToRequiedment() {
+        window.location.href = "requiredment.html";
       }
 
       document.addEventListener("DOMContentLoaded", () => {
@@ -106,6 +104,8 @@
               accountNumber,
               selectedServices,
             });
+
+            window.location.href = "./execution.html";
           });
       });
 
@@ -125,10 +125,6 @@
           selectedServiceTag.innerHTML = `<div>No Services Selected</div>`;
         }
       }
-
-      window.electron.onScriptStatus((message) => {
-        document.getElementById("status").innerText = message;
-      });
     </script>
   </body>
 </html>
