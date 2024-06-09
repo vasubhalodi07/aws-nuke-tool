@@ -6,11 +6,6 @@ body {
   margin: 20px;
 }
 
-h1 {
-  color: #333;
-  margin-bottom: 20px;
-}
-
 section {
   margin: 0 auto;
 }
@@ -31,4 +26,11 @@ section {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+}
+
+.title {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: 600;
 }
