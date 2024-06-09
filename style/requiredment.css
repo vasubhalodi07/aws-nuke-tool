@@ -40,8 +40,8 @@
   padding: 10px;
   background-color: #eee;
   border-radius: 4px;
-  white-space: pre-wrap; /* Allow wrapping of long commands */
-  word-wrap: break-word; /* Break long words */
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .show-command {
@@ -110,7 +110,7 @@ button:disabled {
 
 .refresh-button {
   background-color: #9e9fad;
-  border-radius: 10px;  
+  border-radius: 10px;
   border: none;
   padding: 10px;
   cursor: pointer;

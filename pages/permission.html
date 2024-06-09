@@ -92,7 +92,7 @@
               !requirements.wget
                 ? `<div class="command">
                       <p>Install via:</p>
-                      <pre>sudo apt-get install wget</pre>
+                      <pre>sudo apt install wget</pre>
                     </div>`
                 : ""
             }
@@ -239,14 +239,16 @@
       }
 
       function toggleCommand(element) {
-        const command = element.nextElementSibling;
-        const icon = element.querySelector(".status i.fas");
-        if (command.style.display === "block") {
-          command.style.display = "none";
-          if (icon) icon.className = "fas fa-chevron-down";
-        } else {
-          command.style.display = "block";
-          if (icon) icon.className = "fas fa-chevron-up";
+        if (element.classList.contains("missing")) {
+          const command = element.nextElementSibling;
+          const icon = element.querySelector(".status i.fas");
+          if (command.style.display === "block") {
+            command.style.display = "none";
+            if (icon) icon.className = "fas fa-chevron-down";
+          } else {
+            command.style.display = "block";
+            if (icon) icon.className = "fas fa-chevron-up";
+          }
         }
       }
 
